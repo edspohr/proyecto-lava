@@ -55,24 +55,26 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // Datos de ejemplo (Estos se conectarían a tu Google Sheet en una versión avanzada)
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR7KMdlxjVYS6TEYOAl2S3povJbHGbFLSUZWxsLG7aQzU0IHhqvd4teDpeOsXl1jrruA2nGxf6QwHhS/pub?gid=0&single=true&output=csv";
+
+        // Datos iniciales (se usarán mientras carga o si falla la conexión)
         const initialData = {
             pi: {
-                total: 65,
+                total: 0,
                 breakdown: [
-                    { label: "Ejecución Programada", val: 80 },
-                    { label: "Esperando Cliente", val: 40 },
-                    { label: "Gestión de Cierre/Baja", val: 90 },
-                    { label: "Gestión Interna / Admin", val: 50 }
+                    { label: "Ejecución Programada", val: 0 },
+                    { label: "Esperando Cliente", val: 0 },
+                    { label: "Gestión de Cierre/Baja", val: 0 },
+                    { label: "Gestión Interna / Admin", val: 0 }
                 ]
             },
             ar: {
-                total: 45,
+                total: 0,
                 breakdown: [
-                    { label: "Ejecución Programada", val: 30 },
-                    { label: "Esperando Cliente", val: 60 },
-                    { label: "Gestión de Cierre/Baja", val: 20 },
-                    { label: "Gestión Interna / Admin", val: 70 }
+                    { label: "Ejecución Programada", val: 0 },
+                    { label: "Esperando Cliente", val: 0 },
+                    { label: "Gestión de Cierre/Baja", val: 0 },
+                    { label: "Gestión Interna / Admin", val: 0 }
                 ]
             }
         };
@@ -117,6 +119,89 @@
 
         const App = () => {
             const [data, setData] = useState(initialData);
+            const [loading, setLoading] = useState(true);
+
+            // Función auxiliar para limpiar porcentajes (ej: "80%" -> 80)
+            const parsePercentage = (value) => {
+                if (!value) return 0;
+                // Eliminar % y espacios, convertir a número
+                const clean = value.replace('%', '').trim();
+                const num = parseFloat(clean);
+                // Si el número es decimal pequeño (ej: 0.8), convertir a 80
+                // Asumimos que si es <= 1 y > 0, es formato decimal
+                if (num > 0 && num <= 1 && clean.indexOf('.') > -1) {
+                    return Math.round(num * 100);
+                }
+                return isNaN(num) ? 0 : Math.round(num);
+            };
+
+            useEffect(() => {
+                const fetchData = async () => {
+                    try {
+                        const response = await fetch(SHEET_CSV_URL);
+                        const text = await response.text();
+                        
+                        // Parsear CSV simple
+                        // Asumimos estructura fija: 
+                        // Row 0: Headers
+                        // Row 1-4: Datos
+                        // Row 5: Total
+                        // Col 2: PI, Col 3: AR
+                        
+                        const rows = text.split('\n').map(row => row.split(',')); // Ojo: esto falla si hay comas dentro del texto, pero para este caso simple debería funcionar
+                        
+                        // Mapeo seguro de filas (buscando índices 1 a 4 para breakdown)
+                        // Aseguramos que existan las filas
+                        if (rows.length >= 6) {
+                            const newPiBreakdown = [];
+                            const newArBreakdown = [];
+                            
+                            // Iterar filas de datos (índices 1 a 4)
+                            for (let i = 1; i <= 4; i++) {
+                                if (rows[i]) {
+                                    newPiBreakdown.push({
+                                        label: rows[i][0] || "Categoría",
+                                        val: parsePercentage(rows[i][2])
+                                    });
+                                    newArBreakdown.push({
+                                        label: rows[i][0] || "Categoría",
+                                        val: parsePercentage(rows[i][3])
+                                    });
+                                }
+                            }
+
+                            // Fila de Total (índice 5, o última fila relevante)
+                            // Buscamos la fila que dice "AVANCE TOTAL" en la col 0
+                            const totalRow = rows.find(row => row[0] && row[0].toUpperCase().includes("TOTAL"));
+                            
+                            const piTotal = totalRow ? parsePercentage(totalRow[2]) : 0;
+                            const arTotal = totalRow ? parsePercentage(totalRow[3]) : 0;
+
+                            setData({
+                                pi: {
+                                    total: piTotal,
+                                    breakdown: newPiBreakdown.length ? newPiBreakdown : initialData.pi.breakdown
+                                },
+                                ar: {
+                                    total: arTotal,
+                                    breakdown: newArBreakdown.length ? newArBreakdown : initialData.ar.breakdown
+                                }
+                            });
+                        }
+                    } catch (error) {
+                        console.error("Error cargando datos del Sheet:", error);
+                        // Mantener estado inicial o mostrar error si se desea
+                    } finally {
+                        setLoading(false);
+                    }
+                };
+
+                fetchData();
+                
+                // Opcional: Polling cada 5 minutos para actualizar sin recargar
+                const interval = setInterval(fetchData, 300000);
+                return () => clearInterval(interval);
+            }, []);
 
             return (
                 <div className="min-h-screen flex flex-col bg-gray-50">
@@ -206,7 +291,7 @@
                                     <i className="fas fa-list-ul mr-3"></i> Detalle por Grupo de Gestión
                                 </h3>
                                 <span className="bg-blue-700/50 text-blue-100 px-3 py-1 rounded-full text-xs font-mono">
-                                    Ult. Actualización: Hoy
+                                    Ult. Actualización: {loading ? 'Cargando...' : 'Hoy'}
                                 </span>
                             </div>
                             

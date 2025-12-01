@@ -79,11 +79,21 @@
             }
         };
 
-        const LavaBar = ({ percentage, label }) => {
+        const LavaBar = ({ percentage, label, link }) => {
             return (
                 <div className="flex flex-col items-center flex-1 z-10 group h-full justify-end">
-                    <div className="mb-4 text-center">
-                        <div className="text-4xl md:text-5xl font-black text-blue-900 drop-shadow-sm">{label}</div>
+                    <div className="mb-4 text-center transform transition-transform hover:scale-105">
+                        <a 
+                            href={link} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-4xl md:text-5xl font-black text-blue-900 drop-shadow-sm hover:text-orange-600 transition-colors cursor-pointer decoration-orange-500/30 hover:underline underline-offset-8"
+                            title="Clic para ir a completar la planilla"
+                        >
+                            {label}
+                            <i className="fas fa-external-link-alt text-xl opacity-30 group-hover:opacity-100 transition-opacity"></i>
+                        </a>
+                        <div className="text-xs text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Clic para gestionar</div>
                     </div>
                     
                     {/* Contenedor del tubo */}
@@ -281,8 +291,16 @@
                                 </div>
 
                                 {/* Barras Protagonistas */}
-                                <LavaBar percentage={data.pi.total} label="PI" />
-                                <LavaBar percentage={data.ar.total} label="AR" />
+                                <LavaBar 
+                                    percentage={data.pi.total} 
+                                    label="PI" 
+                                    link="https://docs.google.com/spreadsheets/d/1o8ishaXM2x-radoxCsKOd4GllC1I9bFQc37hEISIkK0/edit?usp=sharing"
+                                />
+                                <LavaBar 
+                                    percentage={data.ar.total} 
+                                    label="AR" 
+                                    link="https://docs.google.com/spreadsheets/d/19s9kD3_Gz73hheFxCRkbK5E63szhhiIWbLBVqBudnaM/edit?usp=sharing"
+                                />
 
                             </div>
                         </div>

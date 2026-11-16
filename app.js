@@ -1,28 +1,33 @@
 'use strict';
-// Illustrative global progress only; official calculation awaits 2026 rules.
-const DEMO_PROGRESS = 64;
-let currentProgress = DEMO_PROGRESS;
+// Design demo only: equal-weight PI/AR average is illustrative, not an approved business formula.
+const DEMO = { pi: 72, ar: 56 };
+const values = { ...DEMO };
 const milestones = [25, 50, 75, 100];
-const slider = document.querySelector('#simulation');
+let previousProgress = 64;
 let celebrationTimer;
-function renderProgress(value, announce = false) {
-  const progress = Math.max(0, Math.min(100, Number(value) || 0));
-  const previous = currentProgress;
-  currentProgress = progress;
-  slider.value = progress;
+function render(announce = false) {
+  for (const area of ['pi', 'ar']) {
+    const value = values[area];
+    document.querySelector(`#simulation-${area}`).value = value;
+    document.querySelector(`#${area}-value`).value = `${value}%`;
+    document.querySelector(`#${area}-percentage`).innerHTML = `${value}<small>%</small>`;
+    document.querySelector(`#${area}-fill`).style.width = `${value}%`;
+    document.querySelector(`#${area}-meter`).setAttribute('aria-valuenow', value);
+    document.querySelector(`#${area}-remaining`).textContent = value === 100 ? '¡Meta simulada alcanzada!' : `Faltan ${100 - value} puntos`;
+  }
+  const progress = Math.round((values.pi + values.ar) / 2);
   const complete = progress === 100;
   const level = Math.min(4, Math.floor(progress / 25) + 1);
   document.querySelector('#percentage').innerHTML = `${progress}<span>%</span>`;
-  document.querySelector('#slider-value').value = `${progress}%`;
-  document.querySelector('#gauge-fill').style.strokeDashoffset = 691.1504 * (1 - progress / 100);
-  document.querySelector('#gauge-fill').style.stroke = complete ? 'var(--blue)' : 'url(#progress-lava)';
-  document.querySelector('#level-label').textContent = complete ? 'MISIÓN COMPLETA' : `NIVEL 0${level}`;
-  document.querySelector('#stage-name').textContent = complete ? '¡Juntos conquistamos la meta!' : ['La aventura comienza', 'Encendiendo motores', 'Tomando impulso', 'A un paso de la cima'][level - 1];
-  document.querySelector('#remaining').textContent = complete ? 'Meta simulada. Beneficio real por confirmar.' : `${100 - progress} puntos para alcanzar la meta`;
-  document.querySelector('#milestones').innerHTML = milestones.map((mark, i) => `<div class="milestone ${progress >= mark ? 'reached' : ''}" aria-label="Hito ${mark}%, ${progress >= mark ? 'alcanzado' : 'pendiente'}"><span aria-hidden="true">${progress >= mark ? '✓' : i + 1}</span>${mark}%</div>`).join('');
+  document.querySelector('#global-fill').style.width = `${progress}%`;
+  document.querySelector('#global-meter').setAttribute('aria-valuenow', progress);
+  document.querySelector('#level-label').textContent = complete ? 'META SIMULADA' : `NIVEL 0${level}`;
+  document.querySelector('#stage-name').textContent = complete ? '¡Juntos conquistamos la meta!' : ['La aventura comienza', 'Encendiendo motores', 'Tomando impulso', 'La meta está cerca'][level - 1];
+  document.querySelector('#remaining').textContent = complete ? '¡Meta alcanzada en esta simulación!' : `${100 - progress} puntos para alcanzar la meta`;
+  document.querySelector('#milestones').innerHTML = milestones.map(mark => `<div class="milestone ${progress >= mark ? 'reached' : ''}" aria-label="Hito ${mark}%, ${progress >= mark ? 'alcanzado' : 'pendiente'}"><span aria-hidden="true">${progress >= mark ? '✓' : '·'}</span>${mark}%</div>`).join('');
   document.querySelector('#announcement').textContent = '';
-  if (announce && complete && previous < 100) {
-    document.querySelector('#announcement').textContent = '¡Misión global completa en la simulación! Beneficio real por confirmar.';
+  if (announce && complete && previousProgress < 100) {
+    document.querySelector('#announcement').textContent = '¡PI y AR alcanzaron la meta en la simulación! Las condiciones reales del beneficio están por confirmar.';
     const celebration = document.querySelector('#celebration');
     celebration.classList.remove('playing');
     void celebration.offsetWidth;
@@ -30,10 +35,15 @@ function renderProgress(value, announce = false) {
     clearTimeout(celebrationTimer);
     celebrationTimer = setTimeout(() => celebration.classList.remove('playing'), 2500);
   }
+  previousProgress = progress;
 }
-slider.addEventListener('input', () => renderProgress(slider.value, true));
-document.querySelector('#reset').addEventListener('click', () => {
-  renderProgress(DEMO_PROGRESS);
-  document.querySelector('#announcement').textContent = `Demo global restablecida al ${DEMO_PROGRESS}%.`;
+for (const area of ['pi', 'ar']) document.querySelector(`#simulation-${area}`).addEventListener('input', event => {
+  values[area] = Math.max(0, Math.min(100, Number(event.target.value) || 0));
+  render(true);
 });
-renderProgress(DEMO_PROGRESS);
+document.querySelector('#reset').addEventListener('click', () => {
+  Object.assign(values, DEMO);
+  render();
+  document.querySelector('#announcement').textContent = 'Demo restablecida: PI 72%, AR 56%, avance global 64%.';
+});
+render();

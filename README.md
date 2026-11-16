@@ -11,9 +11,9 @@ Propuesta local de landing interactiva. Abrir `index.html` en el navegador o eje
 
 ## Implementación
 
-HTML, CSS y JavaScript sin framework ni compilación. Simulación global, hitos, celebración al alcanzar 100%, reinicio del avance y preguntas desplegables. Adaptaciones móviles y respeto por movimiento reducido. Tipografía Inter con alternativas del sistema.
+HTML, CSS y JavaScript sin framework ni compilación. Simulación PI/AR con resultado global ilustrativo, hitos, celebración al alcanzar 100%, reinicio del avance y preguntas desplegables. Adaptaciones móviles y respeto por movimiento reducido. Tipografía Inter con alternativas del sistema.
 
-El avance global de 64% es ilustrativo; no se calcula a partir de promedios de equipos. Los hitos 25/50/75/100 son una propuesta visual. No existe conexión a datos reales; el simulador solo cambia estado en memoria. No hay una fórmula de cumplimiento implementada: depende de las reglas por confirmar.
+PI 72%, AR 56% y global 64% son datos de ejemplo. Solo en el simulador se calcula un promedio simple de PI/AR con igual peso; no es la fórmula oficial. Los hitos 25/50/75/100 son una propuesta visual. No existe conexión a datos reales; el simulador solo cambia estado en memoria. No hay una fórmula de cumplimiento implementada: depende de las reglas por confirmar.
 
 ## Pendientes con Juliana
 
@@ -40,3 +40,9 @@ Símbolo LAVA vectorial en `img/lava-mark.svg`: ascenso volcánico en naranja co
 Referencia: https://spiamericas.com/ y su hoja pública `/_astro/BaseLayout.DHIF-uJQ.css`, consultadas el 16 de noviembre de 2026. Se toman Inter, azul #0170DD, tinta #14202E, fondo #FAFAFB y divisores #E0E2E5. El logo institucional existente `img/logo.png` preside la página. La campaña mantiene su símbolo LAVA; naranja y efectos de calor quedan como acentos. Favicon de campaña conservado.
 
 El beneficio confirmado conceptualmente es días libres de fin de año; cantidad, fechas, meta y condiciones 2026 siguen pendientes. La vista es global. Gestión completada no equivale a cierre. Los criterios de 2025 se presentan como antecedentes, nunca como reglas 2026 aprobadas. La fórmula histórica por categorías no se presume equivalente al porcentaje real de OTAS gestionadas. No se añadieron integraciones ni módulos operacionales a partir del documento de contexto.
+
+## Propuesta con avance protagonista
+
+El primer bloque muestra cumplimiento global, barra de lava, desglose PI/AR y beneficio colectivo. Se elimina el símbolo LAVA de la página y su ilustración decorativa. SPI es la marca principal, Proyecto LAVA un nombre discreto. Favicon simplificado a una L. El simulador está plegado por defecto y permite explorar cada área, mostrando su efecto global con una fórmula explícitamente ilustrativa. Visibilidad por área no significa incentivos independientes.
+
+Verificación actual: sintaxis JS, estado por área, cálculo ilustrativo, límites 0/100, celebración conjunta, reinicio y estructura HTML. Revisión visual de navegador pendiente.

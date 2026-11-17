@@ -46,3 +46,11 @@ El beneficio confirmado conceptualmente es días libres de fin de año; cantidad
 El primer bloque muestra cumplimiento global, barra de lava, desglose PI/AR y beneficio colectivo. Se elimina el símbolo LAVA de la página y su ilustración decorativa. SPI es la marca principal, Proyecto LAVA un nombre discreto. Favicon simplificado a una L. El simulador está plegado por defecto y permite explorar cada área, mostrando su efecto global con una fórmula explícitamente ilustrativa. Visibilidad por área no significa incentivos independientes.
 
 Verificación actual: sintaxis JS, estado por área, cálculo ilustrativo, límites 0/100, celebración conjunta, reinicio y estructura HTML. Revisión visual de navegador pendiente.
+
+## Fuentes y focos · 17 de noviembre de 2026
+
+Tres reportes confirmados (AR Colombia, AR Global Ops y PI), registrados en `sources.json` y enlazados desde la landing. No hay lectura de registros ni sincronización activa. Las tarjetas de foco muestran “Por calcular”, nunca cantidades inventadas o cero por falta de acceso.
+
+Criterios confirmados: OTA abierta de más de 90 días y OTA abierta de más de un año, ambos desde Fecha Solicitud OT. “Más de un año” es el criterio operativo del usuario para enfocar los pendientes históricos; no acredita participación en el listado de campaña 2025. Ambos focos se superponen. Corte, zona horaria, estados abiertos y fórmula oficial pendientes.
+
+Diseño de integración Sheets → Pipefy por lotes, dependencias y validaciones en [docs/pipefy-integration.md](docs/pipefy-integration.md). No se ha habilitado escritura ni programación nocturna.

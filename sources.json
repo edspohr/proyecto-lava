@@ -1,0 +1,52 @@
+{
+  "campaign": "LAVA 2026",
+  "connectionStatus": "not_connected",
+  "sources": [
+    {
+      "key": "ar_colombia",
+      "area": "AR",
+      "label": "AR Colombia",
+      "pipeId": "301584251",
+      "reportId": "300633507",
+      "reportUrl": "https://app.pipefy.com/pipes/301584251/reports_v2/300633507"
+    },
+    {
+      "key": "ar_global_ops",
+      "area": "AR",
+      "label": "AR Global Ops",
+      "pipeId": "307290381",
+      "reportId": "301106539",
+      "reportUrl": "https://app.pipefy.com/pipes/307290381/reports_v2/301106539"
+    },
+    {
+      "key": "pi",
+      "area": "PI",
+      "label": "Propiedad Intelectual",
+      "pipeId": "301834596",
+      "reportId": "300445475",
+      "reportUrl": "https://app.pipefy.com/pipes/301834596/reports_v2/300445475"
+    }
+  ],
+  "legacyBaseline": {
+    "status": "rule_confirmed_data_pending",
+    "rule": "open_and_request_date_older_than_one_calendar_year",
+    "referenceField": "Fecha Solicitud OT",
+    "note": "Criterio operativo confirmado por el usuario; no acredita participación individual en la campaña 2025."
+  },
+  "agePolicy": {
+    "thresholdDaysExclusive": 90,
+    "referenceField": "Fecha Solicitud OT",
+    "cutoffDate": null,
+    "timezone": null,
+    "status": "reference_field_confirmed_cutoff_pending"
+  },
+  "sheet": {
+    "spreadsheetId": null,
+    "status": "awaiting_source"
+  },
+  "writeback": {
+    "enabled": false,
+    "mode": "batch_proposed",
+    "fieldMapping": null
+  }
+}

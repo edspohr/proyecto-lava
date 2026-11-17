@@ -1,56 +1,69 @@
-# LAVA 2.0 · Edición 2026
+# LAVA 2.0 · SPI Américas · 2026
 
-Propuesta local de landing interactiva. Abrir `index.html` en el navegador o ejecutar `python3 -m http.server 8765` en esta carpeta.
+Visualizador de cumplimiento con PI, AR Colombia y AR Global por separado, beneficio colectivo y foco en OTAS abiertas de más de un año y de más de 90 días.
 
-## Decisiones confirmadas
+## Ejecutar
 
-- Vista global: una meta y un beneficio compartido.
-- Se mide gestión completada de OTAS, no necesariamente cierre.
-- Tono lúdico: aventura, niveles y celebración.
-- Sin el banner de 2025.
+Node 22 o posterior, sin dependencias:
 
-## Implementación
+```sh
+npm start
+npm test
+```
 
-HTML, CSS y JavaScript sin framework ni compilación. Simulación PI/AR con resultado global ilustrativo, hitos, celebración al alcanzar 100%, reinicio del avance y preguntas desplegables. Adaptaciones móviles y respeto por movimiento reducido. Tipografía Inter con alternativas del sistema.
+Abrir http://127.0.0.1:8765. Se requiere conexión a Google para leer las hojas. `index.html` solo o un servidor estático no ejecutan `/api/metrics`. En Vercel, `api/metrics.js` se publica como función Node; no hay paso de compilación. La publicación y su lectura deben verificarse en el entorno destino.
 
-PI 72%, AR 56% y global 64% son datos de ejemplo. Solo en el simulador se calcula un promedio simple de PI/AR con igual peso; no es la fórmula oficial. Los hitos 25/50/75/100 son una propuesta visual. No existe conexión a datos reales; el simulador solo cambia estado en memoria. No hay una fórmula de cumplimiento implementada: depende de las reglas por confirmar.
+## Fuentes
 
-## Pendientes con Juliana
+`sources.json` registra los reportes Pipefy y las hojas Google que alimentan tanto la landing como el dashboard:
 
-Base inicial y meta global, criterios de gestión completa, beneficio compartido, fecha límite, fuente de datos y frecuencia de actualización. Al conectar datos: validar denominadores, duplicados y alcance del período; separar o retirar el simulador y mostrar fecha real de corte.
+| Área | Archivo de análisis | Pestaña |
+| --- | --- | --- |
+| PI | 1o8ishaXM2x-radoxCsKOd4GllC1I9bFQc37hEISIkK0 | spi-analisis-otas |
+| AR Colombia | 19s9kD3_Gz73hheFxCRkbK5E63szhhiIWbLBVqBudnaM | AR-analisis-otas |
+| AR Global | Pendiente de definir | Pendiente |
+
+El archivo AR Colombia se llama `AR-col-analisis-otas`; su pestaña conserva el nombre anterior. Las dos pestañas de navegador identificadas apuntaban al mismo ID. No se reutiliza el archivo Colombia para Global.
+
+La API lee la exportación CSV de las hojas compartidas con lectura por vínculo, por su ID/gid, sin rangos de filas fijos. No cambia permisos. Devuelve únicamente agregados; no envía clientes, comentarios ni filas al navegador ni al repositorio. La lectura pública dejará de funcionar si cambia la visibilidad: mostrar error y configurar un acceso autenticado antes de continuar, sin hacer pública una hoja privada.
+
+La página consulta al abrir, cada cinco minutos cuando está visible y con el botón Actualizar datos. La hora de consulta no es fecha de modificación del contenido. Los archivos aún pueden contener registros de 2025: validar el reemplazo del export antes de declarar resultados de campaña.
+
+## Actualizar la data
+
+1. Pegar en la misma pestaña del mismo archivo, conservando encabezados `OT`, `Fase actual`, `GRUPO DE ACCIÓN` y `ESTADO`. Se localizan por nombre, no por posición. Para la antigüedad incluir `Fecha Solicitud OT`; se admiten ISO, DD/MM/YYYY y serial de Sheets.
+2. Mantener los comentarios, evidencias y gestión asociados a cada ID antes de sobrescribir un listado. No copiar estados `Listo` entre OTAS por número de fila.
+3. Si el nuevo listado es más corto, limpiar las filas sobrantes para que no se sigan contando como vigentes.
+4. Mantener los campos dentro de las columnas actuales (PI A:AB; AR A:AC) para las fórmulas del dashboard. La API no limita columnas. Cambiar de pestaña/gid exige actualizar la configuración.
+5. Pulsar Actualizar datos. No se requiere otro push por cada pegado. La caché interna de Google puede introducir un breve retraso.
+
+## Cálculos y cobertura
+
+- Se consideran filas con OT y una fase que comienza por `OTAS`. Confirmar este alcance si cambian los estados de Pipefy.
+- `ESTADO = Listo` indica gestión declarada. No equivale a cierre ni auditoría aprobada.
+- Indicador por área: promedio simple de las cuatro categorías históricas, con cero en categorías vacías, igual que el dashboard. Se muestra aparte Listo/total y su porcentaje real por registros. Reglas oficiales 2026 pendientes.
+- Global: promedio de los tres indicadores solo cuando existen las tres fuentes. No se convierte una fuente ausente en cero ni se recalcula un global con dos áreas.
+- Más de 90 días: diferencia estrictamente superior a 90 días desde solicitud OT.
+- Más de un año: solicitud anterior al aniversario de un año respecto al corte; se ajusta el 29 de febrero al último día válido. Criterio operativo acordado para destacar pendientes históricos, no prueba de pertenencia a la campaña 2025.
+- Corte diario en America/Santiago, misma zona que el dashboard existente. Puede cambiarse en `sources.json`.
+- Los focos se superponen. Se muestran por área, total detectado, sin Listo y cobertura de fechas. Fechas vacías, inválidas o futuras se señalan, no se sustituyen por creación de tarjeta. PI actualmente carece de fecha de solicitud.
+- Un ID de tarjeta duplicado genera error; si no hay ID se usa OT. Tarjetas distintas pueden compartir OT.
+
+## Dashboard actualizado
+
+Se actualizaron `Hoja 1!C1:E7` y `datos!B1:G5` del consolidador existente. PI y Colombia usan IMPORTRANGE sin los antiguos topes 134/481 y ubican grupo, estado y fase por sus encabezados. Global queda pendiente. Se amplió la tabla nativa para incluir su columna y se corrigieron los conteos que apuntaban a pestañas locales inexistentes. No se modificaron los registros de análisis.
 
 ## Archivos
 
-- `index.html`: estructura y contenido.
-- `styles.css`: diseño y adaptaciones.
-- `app.js`: interacciones de demostración.
-- `archive/index-2025.html`: versión anterior conservada; sus rutas de imágenes requieren servirla desde la raíz o adaptar `img/` a `../img/`.
-- CSV, Excel, correos y PDF: históricos de 2025; no consumidos por la landing.
+- `lib/otas.js`: CSV, fechas, filtros y agregación.
+- `api/metrics.js`: lectura de hojas y respuesta agregada de solo lectura.
+- `app.js`: tres áreas, actualización y cobertura.
+- `index.html`, `styles.css`: presentación clara basada en SPI, azul #0170DD, Inter y acentos de lava.
+- `scripts/serve.cjs`: servidor local, sirve solo recursos de la aplicación.
+- `tests/otas.test.cjs`: límites temporales, CSV multilinea, columnas reordenadas, datos incompletos, IDs y API parcial.
+- `archive/index-2025.html`: versión anterior conservada.
+- `docs/pipefy-integration.md`: propuesta de escritura por lotes, todavía no activada.
 
 ## Verificación
 
-Sintaxis JavaScript y verificación de hitos 0/25/50/75/100, avance global, celebración y reinicio mediante ejecución Node con DOM simulado. Revisión visual en navegador pendiente: el host de acceso al navegador no estuvo disponible en esta sesión.
-
-## Identidad visual
-
-Símbolo LAVA vectorial en `img/lava-mark.svg`: ascenso volcánico en naranja con acento verde de logro. Se usa en encabezado y pie. `favicon.svg` adapta el símbolo a pestañas sobre fondo oscuro.
-
-## Dirección visual SPI · Noviembre 2026
-
-Referencia: https://spiamericas.com/ y su hoja pública `/_astro/BaseLayout.DHIF-uJQ.css`, consultadas el 16 de noviembre de 2026. Se toman Inter, azul #0170DD, tinta #14202E, fondo #FAFAFB y divisores #E0E2E5. El logo institucional existente `img/logo.png` preside la página. La campaña mantiene su símbolo LAVA; naranja y efectos de calor quedan como acentos. Favicon de campaña conservado.
-
-El beneficio confirmado conceptualmente es días libres de fin de año; cantidad, fechas, meta y condiciones 2026 siguen pendientes. La vista es global. Gestión completada no equivale a cierre. Los criterios de 2025 se presentan como antecedentes, nunca como reglas 2026 aprobadas. La fórmula histórica por categorías no se presume equivalente al porcentaje real de OTAS gestionadas. No se añadieron integraciones ni módulos operacionales a partir del documento de contexto.
-
-## Propuesta con avance protagonista
-
-El primer bloque muestra cumplimiento global, barra de lava, desglose PI/AR y beneficio colectivo. Se elimina el símbolo LAVA de la página y su ilustración decorativa. SPI es la marca principal, Proyecto LAVA un nombre discreto. Favicon simplificado a una L. El simulador está plegado por defecto y permite explorar cada área, mostrando su efecto global con una fórmula explícitamente ilustrativa. Visibilidad por área no significa incentivos independientes.
-
-Verificación actual: sintaxis JS, estado por área, cálculo ilustrativo, límites 0/100, celebración conjunta, reinicio y estructura HTML. Revisión visual de navegador pendiente.
-
-## Fuentes y focos · 17 de noviembre de 2026
-
-Tres reportes confirmados (AR Colombia, AR Global Ops y PI), registrados en `sources.json` y enlazados desde la landing. No hay lectura de registros ni sincronización activa. Las tarjetas de foco muestran “Por calcular”, nunca cantidades inventadas o cero por falta de acceso.
-
-Criterios confirmados: OTA abierta de más de 90 días y OTA abierta de más de un año, ambos desde Fecha Solicitud OT. “Más de un año” es el criterio operativo del usuario para enfocar los pendientes históricos; no acredita participación en el listado de campaña 2025. Ambos focos se superponen. Corte, zona horaria, estados abiertos y fórmula oficial pendientes.
-
-Diseño de integración Sheets → Pipefy por lotes, dependencias y validaciones en [docs/pipefy-integration.md](docs/pipefy-integration.md). No se ha habilitado escritura ni programación nocturna.
+Nueve pruebas Node aprobadas, lectura real de ambas fuentes verificada localmente y revisión de landing en Chrome. Dashboard verificado por lecturas de fórmulas y resultados; su tabla nativa incluye los tres frentes. No se publican copias de filas de las fuentes. Sigue pendiente el archivo AR Global y la definición final de objetivos, criterios e incentivos 2026.

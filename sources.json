@@ -1,30 +1,39 @@
 {
   "campaign": "LAVA 2026",
-  "connectionStatus": "not_connected",
+  "connectionStatus": "google_sheets_read_only",
   "sources": [
     {
       "key": "ar_colombia",
-      "area": "AR",
+      "area": "ar_colombia",
       "label": "AR Colombia",
       "pipeId": "301584251",
       "reportId": "300633507",
-      "reportUrl": "https://app.pipefy.com/pipes/301584251/reports_v2/300633507"
+      "reportUrl": "https://app.pipefy.com/pipes/301584251/reports_v2/300633507",
+      "spreadsheetId": "19s9kD3_Gz73hheFxCRkbK5E63szhhiIWbLBVqBudnaM",
+      "gid": 650549862,
+      "sheetName": "AR-analisis-otas"
     },
     {
       "key": "ar_global_ops",
-      "area": "AR",
+      "area": "ar_global_ops",
       "label": "AR Global Ops",
       "pipeId": "307290381",
       "reportId": "301106539",
-      "reportUrl": "https://app.pipefy.com/pipes/307290381/reports_v2/301106539"
+      "reportUrl": "https://app.pipefy.com/pipes/307290381/reports_v2/301106539",
+      "spreadsheetId": null,
+      "gid": null,
+      "sheetName": null
     },
     {
       "key": "pi",
-      "area": "PI",
+      "area": "pi",
       "label": "Propiedad Intelectual",
       "pipeId": "301834596",
       "reportId": "300445475",
-      "reportUrl": "https://app.pipefy.com/pipes/301834596/reports_v2/300445475"
+      "reportUrl": "https://app.pipefy.com/pipes/301834596/reports_v2/300445475",
+      "spreadsheetId": "1o8ishaXM2x-radoxCsKOd4GllC1I9bFQc37hEISIkK0",
+      "gid": 1350469144,
+      "sheetName": "spi-analisis-otas"
     }
   ],
   "legacyBaseline": {
@@ -37,16 +46,22 @@
     "thresholdDaysExclusive": 90,
     "referenceField": "Fecha Solicitud OT",
     "cutoffDate": null,
-    "timezone": null,
-    "status": "reference_field_confirmed_cutoff_pending"
+    "timezone": "America/Santiago",
+    "status": "request_date_confirmed_daily_cutoff_in_dashboard_timezone"
   },
   "sheet": {
-    "spreadsheetId": null,
-    "status": "awaiting_source"
+    "status": "configured_per_area",
+    "readOnly": true
   },
   "writeback": {
     "enabled": false,
     "mode": "batch_proposed",
     "fieldMapping": null
+  },
+  "dashboard": {
+    "spreadsheetId": "1UEEH3AGMiwmVyYRLPLf6CilofIbjSJTCT5jU1MzYP9g",
+    "source": "same_analysis_files",
+    "formula": "mean_of_four_category_percentages",
+    "globalFormula": "mean_of_three_area_indicators_only_when_all_available"
   }
 }

@@ -1,0 +1,6 @@
+{
+  "name": "proyecto-lava",
+  "private": true,
+  "scripts": {"start": "node scripts/serve.cjs", "test": "node --test tests/*.test.cjs"},
+  "engines": {"node": ">=22"}
+}

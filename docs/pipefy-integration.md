@@ -1,6 +1,6 @@
 # LAVA 2026 · Fuentes y propuesta de integración
 
-Actualizado: 17 de noviembre de 2026. La landing sigue sin conexión a datos reales. Este documento es una propuesta para revisar con Juliana, no una automatización activa.
+Actualizado: 17 de noviembre de 2026. La landing lee las hojas Google de PI y AR Colombia en modo de solo lectura. AR Global está pendiente de archivo. La sección Sheets → Pipefy sigue siendo una propuesta para revisar con Juliana, no una automatización activa.
 
 ## Fuentes confirmadas
 

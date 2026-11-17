@@ -1,6 +1,6 @@
 # LAVA 2026 · Fuentes y propuesta de integración
 
-Actualizado: 17 de noviembre de 2026. La landing lee las hojas Google de PI y AR Colombia en modo de solo lectura. AR Global está pendiente de archivo. La sección Sheets → Pipefy sigue siendo una propuesta para revisar con Juliana, no una automatización activa.
+Actualizado: 17 de noviembre de 2026. La landing lee las hojas Google de PI y AR Colombia y el resumen numérico publicado de AR Global en modo de solo lectura. Los registros detallados de AR Global siguen privados. La sección Sheets → Pipefy sigue siendo una propuesta para revisar con Juliana, no una automatización activa.
 
 ## Fuentes confirmadas
 
@@ -43,7 +43,7 @@ Una tarea programada usa la identidad de su creador y no asegura un minuto exact
 
 ## Pendiente de definición
 
-Enlace y pestañas del Sheets 2026, alcance y campos de los reportes, estados abiertos, IDs/campos de solicitud OT, criterio de gestión completada, fórmula global, corte, zona horaria, mapeo de columnas, destino de comentarios y campos, credenciales con alcance adecuado, dueño de ejecución y tratamiento de conflictos. No se han escrito comentarios ni modificado tarjetas.
+Para habilitar escritura: criterio definitivo de gestión completada, fórmula oficial 2026, mapeo de campos de destino, credenciales con alcance adecuado, dueño de ejecución y tratamiento de conflictos. Las fuentes, las fases del reporte y la fecha de solicitud quedaron configuradas en la carga del 17-11-2026; el corte diario usa America/Santiago. No se han escrito comentarios ni modificado tarjetas.
 
 ## Documentación oficial consultada
 

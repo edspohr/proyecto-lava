@@ -52,7 +52,7 @@ function adminSummaryRows(cutoff='2026-11-23') {
 }
 test('ADMIN partial counts stay visible without inventing an invoicing total or benefit',()=>{
  const rows=[['metric','value'],...adminSummaryRows()];const result=parseSummary(rows,'2026-11-23',{admin:true,snapshot:'2026-11-23',metricPrefix:'admin_'});
- assert.equal(result.status,'partial');assert.equal(result.total,4427);assert.equal(result.progress,null);assert.equal(result.benefit,'pending');assert.equal(result.fronts[0].status,'pending');assert.equal(result.fronts[0].candidates,4434);assert.equal(result.fronts[1].total,200);assert.equal(result.fronts[2].total,4227);
+ assert.equal(result.status,'partial');assert.equal(result.total,4427);assert.equal(result.progress,0);assert.equal(result.progressProvisional,true);assert.equal(result.benefit,'pending');assert.equal(result.fronts[0].status,'pending');assert.equal(result.fronts[0].candidates,4434);assert.equal(result.fronts[1].total,200);assert.equal(result.fronts[2].total,4227);
  assert.throws(()=>parseSummary(rows.map(r=>r[0]==='admin_fases_total'?[r[0],'4228']:r),'2026-11-23',{admin:true,snapshot:'2026-11-23',metricPrefix:'admin_'}),/incompletos/);
 });
 test('API returns only aggregates, independently available chapters and no upstream error content',async()=>{
@@ -63,4 +63,10 @@ test('API returns only aggregates, independently available chapters and no upstr
  try{let body;await require('../api/metrics')({method:'GET'},{setHeader(){},end(v){body=JSON.parse(v)}});assert.equal(body.areas.length,4);assert.equal(body.areas[0].progress,50);assert.equal(body.areas[3].status,'partial');assert.equal(body.areas[0].benefit,'pending');assert(!JSON.stringify(body).includes('docs.google.com'));assert(!('global'in body));
  global.fetch=async()=>{throw Error('private-client-secret')};await require('../api/metrics')({method:'GET'},{setHeader(){},end(v){body=JSON.parse(v)}});assert(!JSON.stringify(body).includes('private-client-secret'));
  }finally{global.fetch=original;}
+});
+
+test('reviewed pending cases count without payment, closure, documents or an OC',()=>{
+ const base={contactDate:'2026-11-23',observation:'Caso revisado; próxima acción definida',paid:false,closed:false};
+ const cases=[{state:'Pendiente recibir pago para radicación'}, {state:OTA_STATES[0]}, {front:'facturacion',state:'Pendiente facturar'}, {front:'facturacion',state:'Aún no facturable (espera radicación o resolución)'}, {front:'asociados',state:'Falta OC'}, {front:'fases',phase:'Esperando Pago del Cliente 💵',state:'Confirmado pendiente pago'}, {front:'fases',phase:'Proceso de Radicación👌',state:'Pendiente recaudo'}, {front:'fases',phase:'Completadas🏁',state:'Pendiente facturación'}];
+ for(const entry of cases){assert.equal(managementComplete({...base,...entry},'2026-11-23'),true,entry.state);assert.equal(managementComplete({...base,...entry,observation:''},'2026-11-23'),false);}
 });

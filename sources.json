@@ -1,100 +1,66 @@
 {
   "campaign": "LAVA 2026",
-  "connectionStatus": "google_sheets_read_only",
-  "sources": [
-    {
-      "key": "ar_colombia",
-      "area": "ar_colombia",
-      "label": "AR Colombia",
-      "pipeId": "301584251",
-      "reportId": "300633507",
-      "reportUrl": "https://app.pipefy.com/pipes/301584251/reports_v2/300633507",
-      "spreadsheetId": "19s9kD3_Gz73hheFxCRkbK5E63szhhiIWbLBVqBudnaM",
-      "gid": 650549862,
-      "sheetName": "AR-analisis-otas",
-      "includedPhases": [
-        "OTAS - Anuladas Pendientes de Reutilización Financiera",
-        "OTAS - Solicitud",
-        "OTAS - StandBy"
-      ],
-      "analysisLastColumn": "AM",
-      "importedRecords": 571,
-      "importedOn": "2026-11-17"
-    },
-    {
-      "key": "ar_global_ops",
-      "area": "ar_global_ops",
-      "label": "AR Global Ops",
-      "pipeId": "307290381",
-      "reportId": "301106539",
-      "reportUrl": "https://app.pipefy.com/pipes/307290381/reports_v2/301106539",
-      "includedPhases": [
-        "Migración TEMP OTAS",
-        "OTAS - En Proceso",
-        "OTAS - Stanby"
-      ],
-      "importedRecords": 143,
-      "importedOn": "2026-11-17",
-      "readMode": "published_summary",
-      "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv",
-      "summaryGid": 9012026,
-      "publicationScope": "only_summary_no_raw_records"
-    },
-    {
-      "key": "pi",
-      "area": "pi",
-      "label": "Propiedad Intelectual",
-      "pipeId": "301834596",
-      "reportId": "300445475",
-      "reportUrl": "https://app.pipefy.com/pipes/301834596/reports_v2/300445475",
-      "spreadsheetId": "1o8ishaXM2x-radoxCsKOd4GllC1I9bFQc37hEISIkK0",
-      "gid": 1350469144,
-      "sheetName": "spi-analisis-otas",
-      "includedPhases": [
-        "Condición Especial",
-        "En proceso de Radicación",
-        "OTAS sin radicar/Gestión PI",
-        "Programada para renovación",
-        "StandBy por Cliente"
-      ],
-      "analysisLastColumn": "AS",
-      "importedRecords": 188,
-      "importedOn": "2026-11-17"
-    }
-  ],
-  "legacyBaseline": {
-    "status": "rule_confirmed_data_loaded",
-    "rule": "open_and_request_date_older_than_one_calendar_year",
-    "referenceField": "Fecha Solicitud OT",
-    "note": "Criterio operativo confirmado por el usuario; no acredita participación individual en la campaña 2025."
-  },
+  "connectionStatus": "aggregate_summary_only",
   "agePolicy": {
-    "thresholdDaysExclusive": 90,
     "referenceField": "Fecha Solicitud OT",
-    "cutoffDate": null,
     "timezone": "America/Santiago",
-    "status": "request_date_confirmed_daily_cutoff_in_dashboard_timezone"
+    "tiers": {
+      "historical": ">365",
+      "reminder": "91–365",
+      "recent": "0–90"
+    },
+    "exclusive": true,
+    "status": "request_date_confirmed_2026_11_23"
   },
-  "sheet": {
-    "status": "configured_per_area",
-    "readOnly": true
-  },
-  "writeback": {
-    "enabled": false,
-    "mode": "batch_proposed",
-    "fieldMapping": null
-  },
-  "dashboard": {
-    "spreadsheetId": "1UEEH3AGMiwmVyYRLPLf6CilofIbjSJTCT5jU1MzYP9g",
-    "source": "same_analysis_files",
-    "formula": "mean_of_four_category_percentages",
-    "globalFormula": "mean_of_three_area_indicators_only_when_all_available"
+  "campaignRules": {
+    "confirmed": true,
+    "deadline": "2026-12-18",
+    "benefitDates": [
+      "2026-12-24",
+      "2026-12-31"
+    ],
+    "independentChapters": true
   },
   "dataset": {
     "exportedOn": "2026-11-17",
     "origin": "Pipefy reports",
     "initialImportCompleted": true,
     "historicalManagement": "separate_2025_columns",
-    "currentStatusInitialization": "Pendiente"
-  }
+    "currentStatusInitialization": "Pendiente",
+    "frozen": true
+  },
+  "writeback": {
+    "enabled": false,
+    "mode": "batch_proposed",
+    "fieldMapping": null
+  },
+  "sources": [
+    {
+      "key": "ar_colombia",
+      "label": "AR Colombia",
+      "readMode": "published_summary",
+      "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv",
+      "metricPrefix": "ar_colombia_"
+    },
+    {
+      "key": "ar_global_ops",
+      "label": "AR Global Ops",
+      "readMode": "published_summary",
+      "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv"
+    },
+    {
+      "key": "pi",
+      "label": "Propiedad Intelectual",
+      "readMode": "published_summary",
+      "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv",
+      "metricPrefix": "pi_"
+    },
+    {
+      "key": "admin",
+      "label": "Administración",
+      "readMode": "published_summary",
+      "snapshot": "2026-11-23",
+      "pendingReason": "Universo en conciliación: facturación, asociados y responsables ADMIN"
+    }
+  ]
 }

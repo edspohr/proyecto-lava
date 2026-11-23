@@ -1,0 +1,10 @@
+LAVA/
+*.csv
+*.pdf
+archive/
+docs/
+tests/
+scripts/
+integrations/
+.DS_Store
+.env*

@@ -161,3 +161,20 @@ function installLavaNightlyTrigger() {
  const p=PropertiesService.getScriptProperties();if(p.getProperty('PIPEFY_ENABLED')!=='true'||!p.getProperty('PIPEFY_CLIENT_ID')||!p.getProperty('PIPEFY_CLIENT_SECRET'))throw Error('Primero configura credenciales y valida el piloto');
  if(!ScriptApp.getProjectTriggers().some(t=>t.getHandlerFunction()==='runLavaNightWindow'))ScriptApp.newTrigger('runLavaNightWindow').timeBased().everyHours(1).create();
 }
+
+// Publish only ADMIN aggregates; raw rows and credentials remain private.
+function refreshLavaAdminMetrics() {
+ const book=SpreadsheetApp.openById('REEMPLAZAR_SPREADSHEET_ID_ADMIN');
+ const sheet=book.getSheetByName('LAVA ADMIN'),data=sheet.getDataRange().getValues(),h=data.shift();
+ const counts={facturacion:[0,0],asociados:[0,0],fases:[0,0]};
+ for(const r of data){if(!r[h.indexOf('OT')])continue;const f=r[h.indexOf('FRENTE')];if(!counts[f])throw Error('Frente ADMIN no reconocido');counts[f][0]++;if(r[h.indexOf('GESTIÓN COMPLETA')]===true)counts[f][1]++;}
+ const candidates=book.getSheetByName('Facturación por conciliar').getDataRange().getValues().slice(1).filter(r=>String(r[0]).trim()).length;
+ const rows=[['version',2],['cutoff',Utilities.formatDate(new Date(),LAVA_TIMEZONE,'yyyy-MM-dd')],['snapshot','2026-11-23'],['universeValidated','false'],['total',Object.values(counts).reduce((n,c)=>n+c[0],0)],['done',Object.values(counts).reduce((n,c)=>n+c[1],0)]];
+ for(const f of Object.keys(counts)){rows.push([f+'_total',counts[f][0]],[f+'_done',counts[f][1]],[f+'_status',f==='facturacion'?'pending':f==='asociados'?'partial':'ok']);}
+ rows.push(['facturacion_candidates',candidates]);
+ book.getSheetByName('Resumen ADMIN').getRange(2,1,rows.length,2).setValues(rows);
+ const target=SpreadsheetApp.openById(LAVA_CONTROL).getSheetByName('Resumen LAVA');if(target.getMaxRows()<100+rows.length)target.insertRowsAfter(target.getMaxRows(),100+rows.length-target.getMaxRows());
+ target.getRange(101,1,rows.length,2).setValues(rows.map(r=>['admin_'+r[0],r[1]]));SpreadsheetApp.flush();
+ if(!ScriptApp.getProjectTriggers().some(t=>t.getHandlerFunction()==='refreshLavaAdminMetrics'))ScriptApp.newTrigger('refreshLavaAdminMetrics').timeBased().everyMinutes(5).create();
+ console.log(JSON.stringify({published:true,counts,candidates,writebackEnabled:false}));
+}

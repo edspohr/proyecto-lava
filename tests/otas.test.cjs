@@ -47,12 +47,20 @@ test('summary requires matching rules, snapshot and exclusive complete counts',(
  assert.throws(()=>parseSummary(summaryRows().map(r=>r[0]==='reminder'?['reminder','3']:r),'2026-11-23'),/inconsistentes/);
  assert.throws(()=>parseSummary(summaryRows().map(r=>r[0]==='version'?['version','1']:r),'2026-11-23'),/migrar/);
 });
+function adminSummaryRows(cutoff='2026-11-23') {
+ return Object.entries({version:'2',cutoff,snapshot:'2026-11-23',universeValidated:'FALSE',total:'4427',done:'0',facturacion_total:'0',facturacion_done:'0',facturacion_status:'pending',facturacion_candidates:'4434',asociados_total:'200',asociados_done:'0',asociados_status:'partial',fases_total:'4227',fases_done:'0',fases_status:'ok'}).map(([k,v])=>['admin_'+k,v]);
+}
+test('ADMIN partial counts stay visible without inventing an invoicing total or benefit',()=>{
+ const rows=[['metric','value'],...adminSummaryRows()];const result=parseSummary(rows,'2026-11-23',{admin:true,snapshot:'2026-11-23',metricPrefix:'admin_'});
+ assert.equal(result.status,'partial');assert.equal(result.total,4427);assert.equal(result.progress,null);assert.equal(result.benefit,'pending');assert.equal(result.fronts[0].status,'pending');assert.equal(result.fronts[0].candidates,4434);assert.equal(result.fronts[1].total,200);assert.equal(result.fronts[2].total,4227);
+ assert.throws(()=>parseSummary(rows.map(r=>r[0]==='admin_fases_total'?[r[0],'4228']:r),'2026-11-23',{admin:true,snapshot:'2026-11-23',metricPrefix:'admin_'}),/incompletos/);
+});
 test('API returns only aggregates, independently available chapters and no upstream error content',async()=>{
- const original=global.fetch,config=require('../sources.json'),prefixes=config.sources.filter(s=>s.summaryUrl).map(s=>s.metricPrefix||'v2_');
+ const original=global.fetch,config=require('../sources.json'),prefixes=config.sources.filter(s=>s.summaryUrl&&s.key!=='admin').map(s=>s.metricPrefix||'v2_');
  const cutoff=new Intl.DateTimeFormat('en-CA',{timeZone:config.agePolicy.timezone,year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
- const csv=[['metric','value'],['version','1'],...prefixes.flatMap(p=>summaryRows(p).slice(1).map(([k,v])=>[k,k.endsWith('cutoff')?cutoff:v]))].map(r=>r.join(',')).join('\n');
+ const csv=[['metric','value'],['version','1'],...prefixes.flatMap(p=>summaryRows(p).slice(1).map(([k,v])=>[k,k.endsWith('cutoff')?cutoff:v])),...adminSummaryRows(cutoff)].map(r=>r.join(',')).join('\n');
  global.fetch=async()=>({ok:true,text:async()=>csv});
- try{let body;await require('../api/metrics')({method:'GET'},{setHeader(){},end(v){body=JSON.parse(v)}});assert.equal(body.areas.length,4);assert.equal(body.areas[0].progress,50);assert.equal(body.areas[3].status,'pending');assert.equal(body.areas[0].benefit,'pending');assert(!JSON.stringify(body).includes('docs.google.com'));assert(!('global'in body));
+ try{let body;await require('../api/metrics')({method:'GET'},{setHeader(){},end(v){body=JSON.parse(v)}});assert.equal(body.areas.length,4);assert.equal(body.areas[0].progress,50);assert.equal(body.areas[3].status,'partial');assert.equal(body.areas[0].benefit,'pending');assert(!JSON.stringify(body).includes('docs.google.com'));assert(!('global'in body));
  global.fetch=async()=>{throw Error('private-client-secret')};await require('../api/metrics')({method:'GET'},{setHeader(){},end(v){body=JSON.parse(v)}});assert(!JSON.stringify(body).includes('private-client-secret'));
  }finally{global.fetch=original;}
 });

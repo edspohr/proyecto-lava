@@ -60,7 +60,8 @@
       "label": "Administración",
       "readMode": "published_summary",
       "snapshot": "2026-11-23",
-      "pendingReason": "Universo en conciliación: facturación, asociados y responsables ADMIN"
+      "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv",
+      "metricPrefix": "admin_"
     }
   ]
 }

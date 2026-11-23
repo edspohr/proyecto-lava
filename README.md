@@ -28,3 +28,9 @@ Vercel despliega este repositorio desde GitHub. La configuración permite servir
 El envío a Pipefy sigue desactivado hasta configurar credenciales y completar el piloto real. `scripts/pipefy-batch.cjs` permite previsualizar una exportación privada de campaña; `--apply` requiere PIPEFY_TOKEN y LAVA_JOURNAL_PATH en almacenamiento privado durable. La bitácora conserva confirmaciones, detecta conflictos y evita reenvíos ciegos de operaciones inciertas. No se cambian fases ni campos operativos sin mapeo validado. No publicar exports ni resultados de previsualización.
 
 Las hojas de trabajo, el adaptador Apps Script y las instrucciones de operación se mantienen en el entorno interno.
+
+## ADMIN: conteo de facturación
+
+Se cuentan OTs pendientes por facturar, sin exigir montos ni aplicar filtro de fecha. El constructor del universo acepta `pendingInvoicing: true/false`; conserva compatibilidad con un saldo numérico existente cuando no hay indicador explícito. Si se desconoce la condición, queda en conciliación. La fase o la existencia de una factura no prueban por sí solas la inclusión.
+
+La plantilla [integrations/lava-pipefy.example.gs](integrations/lava-pipefy.example.gs) contiene placeholders para las hojas privadas. Reemplazarlos únicamente en el proyecto privado de Apps Script y configurar PIPEFY_CLIENT_ID y PIPEFY_CLIENT_SECRET en Propiedades del script. Mantener PIPEFY_ENABLED=false hasta completar el piloto.

@@ -28,6 +28,13 @@ test('ADMIN keeps missing balances in reconciliation and completed work since 20
  assert.equal(buildAdminUniverse([{...card,date:'2025-01-01',balanceToInvoice:10}]).reviews.length,3);
  assert.equal(buildAdminUniverse([{...card,phase:'Pago del Cliente Recibido💰',country:'Colombia'}]).reviews.length,1);
 });
+test('ADMIN counts pending invoicing OTs without requiring amounts or recent dates',()=>{
+ const card={id:'123',ot:'OT1',phase:'Facturación',date:'2020-01-01',country:'Colombia'};
+ const pending=buildAdminUniverse([{...card,pendingInvoicing:true}]);
+ assert.equal(pending.reviews.length,1);assert.equal(pending.reviews[0].front,'facturacion');assert.equal(pending.reconciliation.length,0);
+ assert.equal(buildAdminUniverse([{...card,pendingInvoicing:false}]).reviews.length,0);
+ const unknown=buildAdminUniverse([card]);assert.equal(unknown.reviews.length,0);assert.match(unknown.reconciliation[0].reason,/no se requiere monto/);
+});
 test('ADMIN referrals deduplicate by source and require one unambiguous target',()=>{
  assert.equal(deriveAdminReferrals([r,r],[{id:'admin1',ot:r.ot}]).length,1);
  assert.equal(deriveAdminReferrals([r],[{id:'a',ot:r.ot},{id:'b',ot:r.ot}])[0].status,'reconciliation');

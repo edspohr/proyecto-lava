@@ -38,3 +38,5 @@ La plantilla [integrations/lava-pipefy.example.gs](integrations/lava-pipefy.exam
 ADMIN se conecta al resumen agregado con prefijo `admin_`. Puede mostrar revisiones identificadas por frente mientras el universo completo está en conciliación; en ese estado muestra un porcentaje provisional sobre las revisiones identificadas y no desbloquea el beneficio. `refreshLavaAdminMetrics()` publica únicamente conteos desde las hojas privadas y crea un refresco cada cinco minutos. Los candidatos de facturación se muestran aparte del universo confirmado.
 
 El avance mide revisión registrada, no resolución operativa. Estados de pago, documentos, facturación u OC pendientes cuentan cuando tienen fecha y observación válidas. ADMIN comienza en 0% sobre su universo identificado y lo señala como parcial hasta cerrar el alcance.
+
+Los nombres de las cuatro áreas del dashboard abren sus respectivas pestañas de gestión en Google Sheets, con la referencia visible “Abrir hoja de gestión”. Los enlaces no cambian los permisos de acceso de los archivos.

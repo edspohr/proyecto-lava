@@ -5,8 +5,6 @@ async function main(){
  const args=process.argv.slice(2),input=args.find(a=>!a.startsWith('--'));
  if(!input)throw Error('Uso: node scripts/pipefy-batch.cjs archivo.csv [--admin] [--apply]');
  const rows=parseCSV(fs.readFileSync(input,'utf8')),records=recordsFromRows(rows,args.includes('--admin'));
- const headers=rows[0],evidence=headers.indexOf('EVIDENCIA');
- records.forEach((r,i)=>{if(evidence>=0)r.evidence=rows.slice(1).filter(row=>String(row[headers.indexOf('OT')]||'').trim())[i][evidence];});
  const cutoff=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Santiago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
  const batch=prepareBatch(records,cutoff);
  if(!args.includes('--apply')){console.log(JSON.stringify({mode:'preview',entries:batch},null,2));return;}

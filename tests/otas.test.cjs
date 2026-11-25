@@ -58,7 +58,7 @@ test('ADMIN partial counts stay visible without inventing an invoicing total or 
 test('API returns only aggregates, independently available chapters and no upstream error content',async()=>{
  const original=global.fetch,config=require('../sources.json'),prefixes=config.sources.filter(s=>s.summaryUrl&&s.key!=='admin').map(s=>s.metricPrefix||'v2_');
  const cutoff=new Intl.DateTimeFormat('en-CA',{timeZone:config.agePolicy.timezone,year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
- const csv=[['metric','value'],['version','1'],...prefixes.flatMap(p=>summaryRows(p).slice(1).map(([k,v])=>[k,k.endsWith('cutoff')?cutoff:v])),...adminSummaryRows(cutoff)].map(r=>r.join(',')).join('\n');
+ const csv=[['metric','value'],['version','1'],...prefixes.flatMap(p=>summaryRows(p).slice(1).map(([k,v])=>[k,k.endsWith('cutoff')?cutoff:k.endsWith('snapshot')?(config.sources.find(s=>(s.metricPrefix||'v2_')===p).snapshot||config.dataset.exportedOn):v])),...adminSummaryRows(cutoff)].map(r=>r.join(',')).join('\n');
  global.fetch=async()=>({ok:true,text:async()=>csv});
  try{let body;await require('../api/metrics')({method:'GET'},{setHeader(){},end(v){body=JSON.parse(v)}});assert.equal(body.areas.length,4);assert.equal(body.areas[0].progress,50);assert.equal(body.areas[3].status,'partial');assert.equal(body.areas[0].benefit,'pending');assert(!JSON.stringify(body).includes('docs.google.com'));assert(!('global'in body));
  global.fetch=async()=>{throw Error('private-client-secret')};await require('../api/metrics')({method:'GET'},{setHeader(){},end(v){body=JSON.parse(v)}});assert(!JSON.stringify(body).includes('private-client-secret'));

@@ -1,6 +1,99 @@
 {
   "campaign": "LAVA 2026",
   "connectionStatus": "aggregate_summary_only",
+  "sources": [
+    {
+      "key": "ar_colombia",
+      "area": "ar_colombia",
+      "label": "AR Colombia",
+      "pipeId": "301584251",
+      "reportId": "300633507",
+      "reportUrl": "https://app.pipefy.com/pipes/301584251/reports_v2/300633507",
+      "spreadsheetId": "19s9kD3_Gz73hheFxCRkbK5E63szhhiIWbLBVqBudnaM",
+      "gid": 20261123,
+      "sheetName": "LAVA 2026",
+      "includedPhases": [
+        "OTAS - Anuladas Pendientes de Reutilización Financiera",
+        "OTAS - Solicitud",
+        "OTAS - StandBy"
+      ],
+      "analysisLastColumn": "AM",
+      "importedRecords": 462,
+      "importedOn": "2026-11-24",
+      "readMode": "published_summary",
+      "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv",
+      "metricPrefix": "ar_colombia_",
+      "snapshot": "2026-11-24",
+      "universePolicy": "current_report_with_preserved_history"
+    },
+    {
+      "key": "ar_global_ops",
+      "area": "ar_global_ops",
+      "label": "AR Global Ops",
+      "pipeId": "307290381",
+      "reportId": "301106539",
+      "reportUrl": "https://app.pipefy.com/pipes/307290381/reports_v2/301106539",
+      "includedPhases": [
+        "Migración TEMP OTAS",
+        "OTAS - En Proceso",
+        "OTAS - Standby"
+      ],
+      "importedRecords": 146,
+      "importedOn": "2026-11-24",
+      "readMode": "published_summary",
+      "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv",
+      "summaryGid": 9012026,
+      "publicationScope": "only_summary_no_raw_records",
+      "gid": 20261123,
+      "sheetName": "LAVA 2026",
+      "snapshot": "2026-11-24",
+      "universePolicy": "current_report_with_preserved_history",
+      "spreadsheetId": "1gsQGMbHUbI3TjOjVaVsCleJi7UGab3lVnLvDmf1STj0"
+    },
+    {
+      "key": "pi",
+      "area": "pi",
+      "label": "Propiedad Intelectual",
+      "pipeId": "301834596",
+      "reportId": "300445475",
+      "reportUrl": "https://app.pipefy.com/pipes/301834596/reports_v2/300445475",
+      "spreadsheetId": "1o8ishaXM2x-radoxCsKOd4GllC1I9bFQc37hEISIkK0",
+      "gid": 20261123,
+      "sheetName": "LAVA 2026",
+      "includedPhases": [
+        "Condición Especial",
+        "En proceso de Radicación",
+        "OTAS sin radicar/Gestión PI",
+        "Programada para renovación",
+        "StandBy por Cliente"
+      ],
+      "analysisLastColumn": "AS",
+      "importedRecords": 188,
+      "importedOn": "2026-11-17",
+      "readMode": "published_summary",
+      "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv",
+      "metricPrefix": "pi_",
+      "universePolicy": "frozen_2026_11_17"
+    },
+    {
+      "key": "admin",
+      "area": "admin",
+      "label": "Administración",
+      "pipeId": "301633616",
+      "reportId": "301134113",
+      "completedReportId": "301134117",
+      "readMode": "published_summary",
+      "snapshot": "2026-11-23",
+      "spreadsheetId": "17YOFuE3ZDL8ZD8g0cPnk8QQMUO70xE0XmucPxkildDU",
+      "preparedReviews": 4427,
+      "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv",
+      "metricPrefix": "admin_"
+    }
+  ],
+  "legacyBaseline": {
+    "status": "historical_preserved_not_verified_in_pipefy",
+    "note": "Histórico por antigüedad no acredita participación en 2025 ni escritura en Pipefy."
+  },
   "agePolicy": {
     "referenceField": "Fecha Solicitud OT",
     "timezone": "America/Santiago",
@@ -12,6 +105,29 @@
     "exclusive": true,
     "status": "request_date_confirmed_2026_11_23"
   },
+  "sheet": {
+    "status": "configured_per_area",
+    "readOnly": true
+  },
+  "writeback": {
+    "enabled": false,
+    "mode": "batch_proposed",
+    "fieldMapping": null
+  },
+  "dashboard": {
+    "spreadsheetId": "1UEEH3AGMiwmVyYRLPLf6CilofIbjSJTCT5jU1MzYP9g",
+    "source": "same_analysis_files",
+    "formula": "complete_management_over_active_universe"
+  },
+  "dataset": {
+    "exportedOn": "2026-11-17",
+    "origin": "Pipefy reports",
+    "initialImportCompleted": true,
+    "historicalManagement": "separate_2025_columns",
+    "currentStatusInitialization": "Pendiente",
+    "frozen": false,
+    "note": "PI conserva el corte original; AR usa los reportes reconciliados. Excluidas conservadas como histórico."
+  },
   "campaignRules": {
     "confirmed": true,
     "deadline": "2026-12-18",
@@ -20,48 +136,5 @@
       "2026-12-31"
     ],
     "independentChapters": true
-  },
-  "dataset": {
-    "exportedOn": "2026-11-17",
-    "origin": "Pipefy reports",
-    "initialImportCompleted": true,
-    "historicalManagement": "separate_2025_columns",
-    "currentStatusInitialization": "Pendiente",
-    "frozen": true
-  },
-  "writeback": {
-    "enabled": false,
-    "mode": "batch_proposed",
-    "fieldMapping": null
-  },
-  "sources": [
-    {
-      "key": "ar_colombia",
-      "label": "AR Colombia",
-      "readMode": "published_summary",
-      "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv",
-      "metricPrefix": "ar_colombia_"
-    },
-    {
-      "key": "ar_global_ops",
-      "label": "AR Global Ops",
-      "readMode": "published_summary",
-      "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv"
-    },
-    {
-      "key": "pi",
-      "label": "Propiedad Intelectual",
-      "readMode": "published_summary",
-      "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv",
-      "metricPrefix": "pi_"
-    },
-    {
-      "key": "admin",
-      "label": "Administración",
-      "readMode": "published_summary",
-      "snapshot": "2026-11-23",
-      "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv",
-      "metricPrefix": "admin_"
-    }
-  ]
+  }
 }

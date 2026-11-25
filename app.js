@@ -30,7 +30,7 @@ function render(data){
  }).join('');
  document.querySelector('#data-status').textContent=`${available.length} DE 4 CAPÍTULOS CON DATOS`;
  document.querySelector('#data-updated').textContent=`Consulta: ${new Intl.DateTimeFormat('es-CO',{timeZone:data.timezone,dateStyle:'short',timeStyle:'short'}).format(new Date(data.fetchedAt))}`;
- document.querySelector('#load-message').textContent=`Universo PI/AR del ${data.sourceSnapshotDate}. La hora de consulta no equivale a una nueva extracción de Pipefy. Las fuentes pendientes no bloquean el beneficio de otro equipo.`;
+ document.querySelector('#load-message').textContent=`Cortes de universo: ${data.areas.filter(a=>a.key!=='admin').map(a=>`${a.label||a.key}: ${a.universeSnapshot||data.sourceSnapshotDate}`).join(' · ')}. La hora de consulta no equivale a una nueva extracción de Pipefy. Las fuentes pendientes no bloquean el beneficio de otro equipo.`;
  document.querySelector('#sync-explanation').textContent=data.writebackEnabled?'La transferencia se ejecuta por lotes. Consulta SINCRONIZACIÓN para saber si cada gestión fue confirmada en Pipefy.':'El envío a Pipefy aún no está activado. Las gestiones quedan guardadas en Sheets; consulta SINCRONIZACIÓN. Marcar una OT como radicada no mueve su tarjeta en Pipefy.';
  document.querySelector('#announcement').textContent=data.complete?'Avance actualizado.':available.length===4?'Los cuatro capítulos tienen datos. ADMIN conserva un universo parcial en revisión.':`Se muestran ${available.length} capítulos disponibles. Los demás están pendientes de lectura o conexión.`;
 }

@@ -1,7 +1,9 @@
-.DS_Store
-node_modules/
-.vercel/
+.private/
 .env*
+node_modules/
+dist/
+.DS_Store
+.vercel/
 LAVA/
 *.csv
 *.xlsx

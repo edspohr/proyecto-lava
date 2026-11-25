@@ -1,5 +1,7 @@
 # LAVA 2.0 · 2026
 
+**Cambios locales del 24/11 pendientes de autorización:** cancelaciones, encabezados obligatorios, campos informativos y conciliación AR no destructiva. Las OTAs excluidas de AR Colombia se conservan como histórico por instrucción del usuario. Ver [dry-run, bloqueos, despliegue y rollback](docs/migration-2026-11-24.md). Esta configuración requiere migrar los resúmenes antes de desplegar; producción conserva la versión anterior.
+
 Seguimiento público agregado de PI, AR COL, AR Global Ops y ADMIN. Cada equipo tiene una meta independiente de 100% de gestiones completas al 18/12/2026 y desbloquea los días libres del 24 y 31/12.
 
 ## Ejecutar

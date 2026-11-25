@@ -7,7 +7,7 @@ module.exports=async function handler(req,res){
  const now=new Date(), cutoff=new Intl.DateTimeFormat('en-CA',{timeZone:config.agePolicy.timezone,year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
  const reads=new Map();
  const areas=await Promise.all(config.sources.map(async source=>{
-  const base={key:source.key,label:source.label,unit:source.key==='admin'?'revisiones':'OTAs'};
+  const base={key:source.key,label:source.label,unit:source.key==='admin'?'revisiones':'OTAs',universeSnapshot:source.snapshot||config.dataset.exportedOn};
   if(!source.spreadsheetId && !source.summaryUrl)return {...base,status:'pending',message:source.pendingReason||'Universo pendiente de conectar'};
   try{
    const url=new URL(source.readMode==='published_summary'?source.summaryUrl:`https://docs.google.com/spreadsheets/d/${source.spreadsheetId}/gviz/tq`);
@@ -29,5 +29,5 @@ module.exports=async function handler(req,res){
  }));
  res.setHeader('Content-Type','application/json; charset=utf-8');res.setHeader('Cache-Control','no-store');res.statusCode=200;
  // Explicit aggregate-only schema: no source URLs, clients, card IDs, assignees or notes.
- res.end(JSON.stringify({fetchedAt:now.toISOString(),cutoff,timezone:config.agePolicy.timezone,deadline:DEADLINE,benefitDates:BENEFIT_DATES,formula:'complete_management_over_frozen_universe',campaignRulesConfirmed:true,sourceSnapshotDate:config.dataset.exportedOn,writebackEnabled:config.writeback.enabled,complete:areas.every(a=>a.status==='ok'),areas}));
+ res.end(JSON.stringify({fetchedAt:now.toISOString(),cutoff,timezone:config.agePolicy.timezone,deadline:DEADLINE,benefitDates:BENEFIT_DATES,formula:'complete_management_over_active_universe',campaignRulesConfirmed:true,sourceSnapshotDate:config.dataset.exportedOn,writebackEnabled:config.writeback.enabled,complete:areas.every(a=>a.status==='ok'),areas}));
 };

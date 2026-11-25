@@ -130,3 +130,7 @@ test('new report dates become native Sheets dates while existing dates remain un
   assert.deepEqual(rows[1][5],before);assert.equal(rows[2][5].userEnteredValue.numberValue,46350);assert.equal(value(rows[2][5]),46350);
  }
 });
+
+test('PI frozen campaign keeps existing phase even when a current report differs',()=>{
+ const b=book('pi',['1']);const p=planMigration({pi:b},{pi:[card('1','pi')]},{informationById:{'1':info}});const result=apply(b,p.plans.pi.requests);assert.equal(value(rowsOf(result.sheets[0])[1][4]),'Fase antigua');
+});

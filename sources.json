@@ -19,11 +19,11 @@
       ],
       "analysisLastColumn": "AM",
       "importedRecords": 462,
-      "importedOn": "2026-11-24",
+      "importedOn": "2026-11-25",
       "readMode": "published_summary",
       "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv",
       "metricPrefix": "ar_colombia_",
-      "snapshot": "2026-11-24",
+      "snapshot": "2026-11-25",
       "universePolicy": "current_report_with_preserved_history"
     },
     {
@@ -39,14 +39,14 @@
         "OTAS - Standby"
       ],
       "importedRecords": 146,
-      "importedOn": "2026-11-24",
+      "importedOn": "2026-11-25",
       "readMode": "published_summary",
       "summaryUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXPJ1bIyCmTQxfnwR9CWVVUbPhNl1mzb27RjnYtu_7qOMGkIOGCt-p7KSzhFA6hDbSafYDuZCoAmnn/pub?gid=9012026&single=true&output=csv",
       "summaryGid": 9012026,
       "publicationScope": "only_summary_no_raw_records",
       "gid": 20261123,
       "sheetName": "LAVA 2026",
-      "snapshot": "2026-11-24",
+      "snapshot": "2026-11-25",
       "universePolicy": "current_report_with_preserved_history",
       "spreadsheetId": "1gsQGMbHUbI3TjOjVaVsCleJi7UGab3lVnLvDmf1STj0"
     },
